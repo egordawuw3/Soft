@@ -1,0 +1,167 @@
+/* --- Подключение шрифтов и иконок --- */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+
+:root {
+    --bg-main: #0B0B0E;
+    --text-cream: #FDF6E3;
+    --text-muted: #aba8a0;
+    --accent-red: #8B0000;
+    --glass: rgba(11, 11, 14, 0.8);
+    --easing-smooth: cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+/* --- Базовые настройки и Текстура --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-cream);
+    font-family: 'Manrope', sans-serif;
+    line-height: 1.7;
+    overflow-x: hidden;
+}
+
+/* Эффект пленочного зерна (Noise) */
+body::before {
+    content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 999; mix-blend-mode: overlay;
+}
+
+h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 400; }
+a { text-decoration: none; color: inherit; transition: 0.4s var(--easing-smooth); }
+section { padding: 140px 6vw; position: relative; z-index: 10; }
+
+/* --- Типографика --- */
+.display-title {
+    font-size: clamp(3.5rem, 10vw, 8rem); /* Адаптивный огромный размер */
+    line-height: 0.95; letter-spacing: -0.02em; margin-bottom: 40px;
+}
+
+.subtitle {
+    display: inline-block; color: var(--accent-red); 
+    font-family: 'Manrope', sans-serif; font-size: 0.85rem; 
+    text-transform: uppercase; letter-spacing: 4px; margin-bottom: 20px;
+    padding-left: 40px; position: relative;
+}
+/* Декоративная линия перед субтитрами */
+.subtitle::before {
+    content: ''; position: absolute; left: 0; top: 50%; 
+    width: 30px; height: 1px; background: var(--accent-red);
+}
+
+/* --- Навигация (Glassmorphism) --- */
+.navbar {
+    position: fixed; top: 0; width: 100%; padding: 25px 6vw;
+    display: flex; justify-content: space-between; align-items: center;
+    z-index: 1000; background: var(--glass); backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(253, 246, 227, 0.08);
+}
+
+.logo { font-family: 'Playfair Display'; font-size: 1.1rem; letter-spacing: 1px; }
+
+.nav-links a {
+    margin-left: 40px; font-size: 0.75rem; text-transform: uppercase; 
+    letter-spacing: 2px; opacity: 0.6; position: relative;
+}
+
+.nav-links a::after {
+    content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 1px;
+    background: var(--accent-red); transition: 0.4s var(--easing-smooth);
+}
+.nav-links a:hover, .nav-links a.active { opacity: 1; color: var(--accent-red); }
+.nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+
+/* --- Hero Block (Parallax) --- */
+.hero {
+    height: 100vh; display: flex; align-items: center; padding: 0 6vw;
+    position: relative; overflow: hidden;
+}
+
+.hero-bg {
+    position: absolute; top: 0; left: 0; width: 100%; height: 105%;
+    background-size: cover; background-position: center;
+    opacity: 0.4; z-index: -1; will-change: transform;
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+}
+
+.hero-content { max-width: 900px; }
+.hero-text { font-size: 1.2rem; color: var(--text-muted); max-width: 600px; }
+
+/* --- Сетки и Карточки --- */
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 60px; margin-top: 80px; }
+
+.card {
+    position: relative; padding-bottom: 30px;
+    border-bottom: 1px solid rgba(253, 246, 227, 0.1);
+    transition: 0.6s var(--easing-smooth); group;
+}
+
+.card::after {
+    content: ''; position: absolute; bottom: -1px; left: 0; width: 0; height: 2px;
+    background: var(--accent-red); transition: 0.6s var(--easing-smooth);
+}
+
+.card:hover::after { width: 100%; }
+.card:hover h3 { color: var(--accent-red); }
+
+.card-img-wrap { height: 380px; overflow: hidden; margin-bottom: 30px; background: #1a1a1a; }
+.card-img-wrap img {
+    width: 100%; height: 100%; object-fit: cover;
+    filter: grayscale(100%) contrast(120%); transition: 0.8s var(--easing-smooth);
+}
+.card:hover img { filter: grayscale(0%) contrast(100%); transform: scale(1.05); }
+
+.card h3 { font-size: 1.8rem; margin-bottom: 15px; transition: 0.4s; }
+.card p { color: var(--text-muted); }
+
+/* --- Иконки и Описание (About/Concept) --- */
+.icon-box { display: flex; gap: 30px; align-items: flex-start; }
+.icon-wrap {
+    font-size: 2.5rem; color: var(--accent-red);
+    padding: 20px; border: 1px solid rgba(139, 0, 0, 0.3); border-radius: 50%;
+}
+
+/* --- Маршрут (Timeline) --- */
+.timeline { max-width: 800px; margin-left: auto; margin-right: auto; }
+.timeline-step {
+    padding-left: 60px; padding-bottom: 80px;
+    border-left: 1px solid rgba(139, 0, 0, 0.3); position: relative;
+}
+.timeline-marker {
+    position: absolute; left: -25px; top: 0;
+    width: 50px; height: 50px; background: var(--bg-main);
+    border: 1px solid var(--accent-red); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent-red); font-size: 1.5rem;
+}
+
+/* --- Анимации появления (Staggered) --- */
+/* Базовое состояние элемента до анимации */
+[data-animate] {
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.8s var(--easing-smooth), transform 0.8s var(--easing-smooth);
+}
+/* Активное состояние */
+[data-animate].in-view { opacity: 1; transform: translateY(0); }
+
+/* Задержки для каскадного эффекта */
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+
+/* Footer */
+footer {
+    padding: 80px 6vw; text-align: center;
+    border-top: 1px solid rgba(253, 246, 227, 0.05);
+}
+.footer-brand { font-family: 'Playfair Display'; font-size: 4vw; opacity: 0.2; }
+
+@media (max-width: 768px) {
+    .navbar { padding: 20px; flex-direction: column; gap: 15px; background: var(--bg-main); }
+    .nav-links a { margin: 0 10px; }
+    .display-title { font-size: 3.5rem; }
+}
